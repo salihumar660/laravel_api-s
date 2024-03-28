@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthenticationController extends Controller
 {
+    //Register functionality
     /**
      * Register a new user.
      *
@@ -27,19 +28,20 @@ class AuthenticationController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
+        $roleId = 2;
 
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            //'role_id' => 2 
+            'role_id' => $roleId
         ]);
-
         $user->save();
 
         return response()->json(['message' => 'User Registered Successfully'], 201);
     }
 
+    //Login functionality
     /**
      * Login user.
      *
@@ -53,10 +55,24 @@ class AuthenticationController extends Controller
         if (!Auth::attempt($credentials)) {
             return response()->json(['message' => 'Invalid Credentials'], 422);
         }
+        $user = auth()->user();
+        $role = $user->role_id;
+        $message = '';
+    
+        switch ($role) {
+            case 1:
+                $message = 'Admin is logged in';
+                break;
+            case 2:
+                $message = 'User is logged in';
+                break;
 
-        $token = auth()->user()->createToken('AuthToken')->accessToken;
+            default:
+                $message = 'Unknown role';
+                break;
+        }
 
-        return response()->json(['token' => $token], 200);
+        return response()->json(['message' => $message], 200);
     }
 
 }
