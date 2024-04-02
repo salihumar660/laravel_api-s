@@ -11,7 +11,7 @@ class UserManagementController extends Controller
 {
     public function view_users(){
         //get all users from users tb
-        $users = User::where('role_id' , 2)->get();
+        $users = User::all();
         return response()->json(['succces' => true, 'users' => $users] , 200);
     }
     /**
