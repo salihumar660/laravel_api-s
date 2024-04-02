@@ -3,7 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
-use App\Http\Controllers\Auth\UserManagementController;
+use App\Http\Controllers\UserManagementController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,23 +15,32 @@ use App\Http\Controllers\Auth\UserManagementController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
 // Authentication routes
 Route::post('register', [AuthenticationController::class, 'register']);
-Route::post('login', [AuthenticationController::class, 'login']);
+Route::post('login', [AuthenticationController::class, 'login'])->name('login');
+Route::middleware('web')->get('logout', [AuthenticationController::class, 'logout_user']);
+
+
 // Routes for managing roles
 Route::middleware('auth:sanctum')->group(function () {
     // Get the authenticated user
     Route::get('user', function (Request $request) {
         return $request->user();
     });
-    //view all users with role_id = 2
-Route::get('/users', [UserManagementController::class, 'view_users']);
-//create a new user
-Route::post('/add/user', [UserManagementController::class, 'create_user']);
-//edit user
-Route::get('/user/{id}/edit', [UserManagementController::class, 'edit_user']);
-//update existing user
-Route::put('/update/user/{id}', [UserManagementController::class, 'update']);
-//delete user
-Route::delete('/user/{id}', [UserManagementController::class, 'delete_user']);
+
+    // View all users with role_id = 2
+    Route::get('allusers', [UserManagementController::class, 'view_users']);
+
+    // Create a new user
+    Route::post('/add/user', [UserManagementController::class, 'create_user']);
+
+    // Edit user
+    Route::get('/edit/user/{id}', [UserManagementController::class, 'edit_user']);
+
+    // Update existing user
+    Route::put('/update/user/{id}', [UserManagementController::class, 'update']);
+
+    // Delete user
+    Route::delete('/delete/user/{id}', [UserManagementController::class, 'delete_user']);
 });

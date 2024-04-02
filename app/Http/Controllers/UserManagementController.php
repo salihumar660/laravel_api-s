@@ -12,7 +12,7 @@ class UserManagementController extends Controller
     public function view_users(){
         //get all users from users tb
         $users = User::where('role_id' , 2)->get();
-        return response()->json($users , 200);
+        return response()->json(['succces' => true, 'users' => $users] , 200);
     }
     /**
      * Create a new user.
@@ -20,7 +20,7 @@ class UserManagementController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function create_user(Request $request):JsonResponse
+    public function create_user(Request $request): JsonResponse
     {
         $validateData = $request->validate([
             'name' => 'required|string',
@@ -35,7 +35,7 @@ class UserManagementController extends Controller
         $user->password = Hash::make($validateData['password']);
         $user->role_id = $roleId;
         $user->save();
-        return response()->json(['message'=> 'Admin added user successfully', 'user'=>$user] ,201);
+        return response()->json(['success' => true, 'message'=> 'Admin added user successfully', 'user'=>$user] ,201);
     }
     //edit functionality
     /**
@@ -66,7 +66,7 @@ class UserManagementController extends Controller
         $user->name = $validation['name'];
         $user->email = $validation['email'];
         $user->save();
-        return response()->json(['message' , 'User updated successfully' , 'user'=>$user] , 200);
+        return response()->json(['success' => true, 'message' , 'User updated successfully' , 'user'=>$user] , 200);
     }
     //delete functionality
     /**
@@ -79,6 +79,6 @@ class UserManagementController extends Controller
     {
         $del_user = User::findOrFail($id);
         $del_user->delete();
-        return response()->json(['message', 'user deleted successfully' , 'user'=>$del_user], 200);
+        return response()->json(['success' => true, 'message', 'user deleted successfully' , 'user'=>$del_user], 200);
     }
 }

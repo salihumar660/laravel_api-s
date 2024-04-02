@@ -51,28 +51,24 @@ class AuthenticationController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only(['email', 'password']);
-
+    
         if (!Auth::attempt($credentials)) {
             return response()->json(['message' => 'Invalid Credentials'], 422);
         }
         $user = auth()->user();
         $role = $user->role_id;
-        $message = '';
+        $tokenValue = $user->id; 
+         $token = "{$tokenValue}|{$role}";
     
-        switch ($role) {
-            case 1:
-                $message = 'Admin is logged in';
-                break;
-            case 2:
-                $message = 'User is logged in';
-                break;
-
-            default:
-                $message = 'Unknown role';
-                break;
-        }
-
-        return response()->json(['message' => $message], 200);
+        //store the token in session
+        session(['token' => $token]);
+        return response()->json(['message' => $token], 200);
     }
-
+    //logout functionality
+public function logout_user(Request $request){
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return response()->json(['message' => 'Loggedout Successfully'], 201);
+}
 }
