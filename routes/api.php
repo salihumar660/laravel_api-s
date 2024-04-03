@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
@@ -19,8 +18,7 @@ use App\Http\Controllers\UserManagementController;
 // Authentication routes
 Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('login', [AuthenticationController::class, 'login'])->name('login');
-Route::middleware('web')->get('logout', [AuthenticationController::class, 'logout_user']);
-
+Route::middleware('web')->post('logout', [AuthenticationController::class, 'logout_user']);
 
 // Routes for managing roles
 Route::middleware('auth:sanctum')->group(function () {
@@ -28,19 +26,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', function (Request $request) {
         return $request->user();
     });
+});
 
     // View all users with role_id = 2
-    Route::get('allusers', [UserManagementController::class, 'view_users']);
+    Route::get('users', [UserManagementController::class, 'view_users']);
 
     // Create a new user
-    Route::post('/add/user', [UserManagementController::class, 'create_user']);
+    Route::post('add/user', [UserManagementController::class, 'create_user']);
 
-    // Edit user
-    Route::get('/edit/user/{id}', [UserManagementController::class, 'edit_user']);
+    // Edit user (retrieve user data for editing)
+    Route::get('/user/{id}', [UserManagementController::class, 'edit_user']);
 
     // Update existing user
-    Route::put('/update/user/{id}', [UserManagementController::class, 'update']);
+    Route::put('/user/{id}', [UserManagementController::class, 'update']);
 
     // Delete user
-    Route::delete('/delete/user/{id}', [UserManagementController::class, 'delete_user']);
-});
+    Route::delete('/user/{id}', [UserManagementController::class, 'delete_user']);
