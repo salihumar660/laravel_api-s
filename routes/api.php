@@ -58,3 +58,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('all/audios', [AudioManagementController::class, 'view_audios']);
 
     Route::post('add/audio', [AudioManagementController::class, 'create_audio']);
+
+    //FOR LANDING PAGE AND ADMIN SIDE 
+    Route::get('uploaded/audio', [AudioManagementController::class, 'audios']);
