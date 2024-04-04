@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\AudioManagementController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -43,3 +44,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('all/audios', [AudioManagementController::class, 'view_audios']);
 
     Route::post('add/audio', [AudioManagementController::class, 'create_audio']);
+
+    //ALL AUDIOS FOR LANDING PAGE AND ADMIN 
+    Route::get('uploaded/audios', [AudioManagementController::class, 'audios']);
