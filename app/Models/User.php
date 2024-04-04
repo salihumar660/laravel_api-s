@@ -25,13 +25,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    //Relation
+    //relation with roles
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
     }
 
-
-
-   
+    //relation with audios
+    public function audio()
+    {
+        return $this->HasMany(Audio::class);
+    }
 }

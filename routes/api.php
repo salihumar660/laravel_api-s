@@ -3,7 +3,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\UserManagementController;
-
+use App\Http\Controllers\AudioManagementController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 
+<<<<<<< HEAD
     // View all users with role_id = 2
     Route::get('users', [UserManagementController::class, 'view_users']);
 
@@ -42,3 +43,20 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Delete user
     Route::delete('/user/{id}', [UserManagementController::class, 'delete_user']);
+=======
+    //USER MANAGEMENT API'S
+    Route::get('users', [UserManagementController::class, 'view_users']);
+
+    Route::post('add/user', [UserManagementController::class, 'create_user']);
+
+    Route::get('/user/{id}', [UserManagementController::class, 'edit_user']);
+
+    Route::put('/user/{id}', [UserManagementController::class, 'update']);
+
+    Route::delete('user/{id}', [UserManagementController::class, 'delete_user']);
+
+    //AUDIO MANAGEMENT API'S
+    Route::get('all/audios', [AudioManagementController::class, 'view_audios']);
+
+    Route::post('add/audio', [AudioManagementController::class, 'create_audio']);
+>>>>>>> 264138b068582ec7cd438cccabc03db916e40de3
