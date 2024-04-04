@@ -28,6 +28,20 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 });
+    // View all users with role_id = 2
+    Route::get('users', [UserManagementController::class, 'view_users']);
+
+    // Create a new user
+    Route::post('add/user', [UserManagementController::class, 'create_user']);
+
+    // Edit user (retrieve user data for editing)
+    Route::get('/user/{id}', [UserManagementController::class, 'edit_user']);
+
+    // Update existing user
+    Route::put('/user/{id}', [UserManagementController::class, 'update']);
+
+    // Delete user
+    Route::delete('/user/{id}', [UserManagementController::class, 'delete_user']);
 
     //USER MANAGEMENT API'S
     Route::get('users', [UserManagementController::class, 'view_users']);
@@ -44,6 +58,3 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('all/audios', [AudioManagementController::class, 'view_audios']);
 
     Route::post('add/audio', [AudioManagementController::class, 'create_audio']);
-
-    //ALL AUDIOS FOR LANDING PAGE AND ADMIN 
-    Route::get('uploaded/audios', [AudioManagementController::class, 'audios']);
