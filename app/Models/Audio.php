@@ -13,6 +13,7 @@ class Audio extends Model
         'name',
         'description',
         'audio_file',
+        'image'
     ];
 
     //Relation with users
