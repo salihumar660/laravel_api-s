@@ -18,6 +18,8 @@ use App\Http\Controllers\AudioManagementController;
 
 // Authentication routes
 Route::post('register', [AuthenticationController::class, 'register']);
+Route::post('audio-upload-path', [AudioManagementController::class, 'create_audio']);
+Route::post('user-create-path', [UserManagementController::class, 'create_user']);
 Route::post('login', [AuthenticationController::class, 'login'])->name('login');
 Route::middleware('web')->post('logout', [AuthenticationController::class, 'logout_user']);
 
@@ -57,7 +59,22 @@ Route::middleware('auth:sanctum')->group(function () {
     //AUDIO MANAGEMENT API'S
     Route::get('all/audios', [AudioManagementController::class, 'view_audios']);
 
-    Route::post('add/audio', [AudioManagementController::class, 'create_audio']);
+    // Route::post('add/audio', [AudioManagementController::class, 'create_audio']);
+    
+    Route::put('push-image', [AudioManagementController::class, 'create_audio']);
 
     //FOR LANDING PAGE AND ADMIN SIDE 
     Route::get('uploaded/audio', [AudioManagementController::class, 'audios']);
+
+
+Route::get('/clear-api-routes', function () {
+    // Clear route cache
+    Artisan::call('route:clear');
+    Artisan::call   ('config:cache');
+    
+    // Re-cache routes, including only API routes
+    Artisan::call('route:cache');
+
+    return Artisan::call('route:list');
+    // return "API routes cache cleared!";
+});
