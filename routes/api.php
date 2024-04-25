@@ -65,6 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //FOR LANDING PAGE AND ADMIN SIDE 
     Route::get('uploaded/audio', [AudioManagementController::class, 'audios']);
+    Route::delete('audio/delete', [AudioManagementController::class, 'del_audio']);
 
 
 Route::get('/clear-api-routes', function () {

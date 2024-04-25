@@ -139,4 +139,33 @@ class AudioManagementController extends Controller
         // Return the audio with appropriate MIME type
         return response($file)->header('Content-Type', $mime);
     }
+    //delete audio
+    public function del_audio(Request $request)
+    {
+        try
+        {
+            // Check if the authenticated user is an admin
+            // if (!auth()->user()->isAdmin()) {
+            //     // If the user is not an admin, return unauthorized response
+            //     return response()->json(['message' => 'Unauthorized. Only admin can delete audio files.'], 403);
+            // }
+            $audioFileName = $request->input('audio_file_name');
+    
+            if (!Storage::exists('public/audios/' . $audioFileName)) {
+                return response()->json(['message' => 'Audio file not found.'], 404);
+            }
+            Storage::delete('public/audios/' . $audioFileName);
+            $audio = Audio::where('audio_file', $audioFileName)->first();
+            if (!$audio) {
+                return response()->json(['message' => 'Audio record not found.'], 404);
+            }
+            $audio->delete();
+            return response()->json(['message' => 'Audio deleted successfully.'], 200);
+        }
+        catch(Exception $e)
+        {
+            return response()->json(['message' => 'Failed to delete audio. Please try again.'], 500);
+        }
+    }
+    
 }
