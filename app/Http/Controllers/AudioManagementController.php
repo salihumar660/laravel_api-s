@@ -82,6 +82,9 @@ class AudioManagementController extends Controller
             // Set audio attributes
             $audio->name = $request->input('name');
             $audio->description = $request->input('description');
+            $audio->genre = $request->input('genre');
+            $audio->album = $request->input('album');
+            $audio->duration = $request->input('duration');
             $audio->audio_file = $audioFileName;
             $audio->image = $imageFileName;
             // Set user ID
